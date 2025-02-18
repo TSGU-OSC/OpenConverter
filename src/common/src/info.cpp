@@ -147,13 +147,13 @@ void Info::send_Info(char *src) {
     quickInfo->audioBitRate =
         avCtx->streams[quickInfo->audioIdx]->codecpar->bit_rate;
 #ifdef OC_FFMPEG_VERSION
-    #if OC_FFMPEG_VERSION < 60
+#if OC_FFMPEG_VERSION < 60
     quickInfo->channels =
         avCtx->streams[quickInfo->audioIdx]->codecpar->channels;
-    #else
+#else
     quickInfo->channels =
         avCtx->streams[quickInfo->audioIdx]->codecpar->ch_layout.nb_channels;
-    #endif
+#endif
 #endif
     quickInfo->sampleFmt = av_get_sample_fmt_name(audioCtx->sample_fmt);
     quickInfo->sampleRate =
