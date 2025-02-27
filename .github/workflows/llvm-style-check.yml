@@ -46,19 +46,17 @@ jobs:
       - name: Run enhanced clang-format check
         run: |
           echo "::group::🔎 Changed Files Detection"
+          
           # Get the accurate comparison range
           BASE_REF=${{ github.event.pull_request.base.ref }}  # Target branch (e.g., main)
-          HEAD_REF=${{ github.event.pull_request.head.ref }}  # Head branch
+          HEAD_REF=${{ github.event.pull_request.head.ref }}  # Source branch
 
           # Fetch the target branch code
+          git fetch origin $BASE_REF
           git fetch origin $HEAD_REF
-          # git checkout -b base_branch FETCH_HEAD
-
-          # Switch back to the PR branch
-          git checkout $HEAD_REF
 
           # Generate the list of changed files
-          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRTUXB BASE_REF...HEAD)
+          CHANGED_FILES=$(git diff --name-only origin/$BASE_REF...origin/$HEAD_REF)
           printf "Changed files:\n%s\n" "$CHANGED_FILES"
           echo "::endgroup::"
 
